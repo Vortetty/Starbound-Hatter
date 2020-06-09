@@ -53,7 +53,8 @@ $(function() {
   });
 
   // Bind generate output
-  $("#btnPlainText").click(generatePlainText);
+  $("#btnPlainText1").click(generateDrawables);
+  $("#btnPlainText").click($("#btnPlainText").click(generatePlainText););
   $("#btnCommand").click(generateCommand);
 
   // Load preview
@@ -319,6 +320,38 @@ function generatePlainText() {
   var blob = new Blob([ JSON.stringify(obj, null, 2) ], {type: "text/plain;charset=utf8"});
   saveAs(blob, "CustomHat.json");
 }
+
+function generateDrawables() {
+  var obj = generateSimple();
+  $("#itemDirective").val(obj);
+}
+
+function generateSimple() {
+  if (!confirmDrawable(true)) { return; }
+
+ let obj = $("#checkLegacy")[0].checked
+    ? generateLegacyDirectives(drawableImage, {crop: autoCropFrame, setWhite: true})
+    : generateDirectives(drawableImage, {crop : autoCropFrame});
+ 
+  return obj;
+}
+
+/**
+ * Generates a hat export for the current image, and starts a download for it.
+ */
+function generatePlainText() {
+  var obj = generateItem();
+
+  var blob = new Blob([ JSON.stringify(obj, null, 2) ], {type: "text/plain;charset=utf8"});
+  saveAs(blob, "CustomHat.json");
+}
+
+function generateDrawables() {
+  var obj = generateItem();
+
+  var blob = new Blob([ JSON.stringify(obj, null, 2) ], {type: "text/plain;charset=utf8"});
+}
+
 
 /**
  * Generates a hat export for the current image, and starts a download for it.
